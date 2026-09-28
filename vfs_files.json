@@ -1,0 +1,8 @@
+{
+  "type": "dir",
+  "children": {
+    "notes.txt": { "type": "file", "content": "Notes here", "encoding": "utf-8" },
+    "todo.md": { "type": "file", "content": "# TODO\n- Task 1\n- Task 2", "encoding": "utf-8" },
+    "data.bin": { "type": "file", "content": "SGVsbG8=", "encoding": "base64" }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "dir",
+  "children": {
+    "readme.txt": {
+      "type": "file",
+      "content": "Minimal VFS",
+      "encoding": "utf-8"
+    }
+  }
+}

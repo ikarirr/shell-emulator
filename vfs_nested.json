@@ -1,0 +1,29 @@
+{
+  "type": "dir",
+  "children": {
+    "home": {
+      "type": "dir",
+      "children": {
+        "user": {
+          "type": "dir",
+          "children": {
+            "docs": {
+              "type": "dir",
+              "children": {
+                "readme.txt": { "type": "file", "content": "Read me", "encoding": "utf-8" },
+                "guide.md": { "type": "file", "content": "# Guide", "encoding": "utf-8" }
+              }
+            },
+            "notes.txt": { "type": "file", "content": "Some notes", "encoding": "utf-8" }
+          }
+        }
+      }
+    },
+    "etc": {
+      "type": "dir",
+      "children": {
+        "config.json": { "type": "file", "content": "eyJ2ZXJzaW9uIjogMX0=", "encoding": "base64" }
+      }
+    }
+  }
+}

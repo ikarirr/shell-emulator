@@ -1,0 +1,7 @@
+ls
+cd /home/user
+ls
+cd /etc
+ls
+cd /no/such/path
+ls
