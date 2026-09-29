@@ -9,11 +9,10 @@ VFS_NAME = "my-vfs"
 VFS_ROOT = None
 CURRENT_PATH = "/"
 
-
 def make_default_vfs():
     return {"type": "dir", "children": {}}
 
-
+# загрузка vfs и строит дерево
 def load_vfs(path):
     if not os.path.isfile(path):
         print(f"Ошибка: файл VFS не найден: {path}")
@@ -29,11 +28,11 @@ def load_vfs(path):
         sys.exit(1)
     return data
 
-
+# разбивает путь на части
 def split_path(path):
     return [p for p in path.split("/") if p and p != "."]
 
-
+# превращает путь в абсолютный
 def resolve_path(start_path, target):
     if target.startswith("/"):
         parts = split_path(target)
@@ -47,7 +46,7 @@ def resolve_path(start_path, target):
                 parts.append(p)
     return "/" + "/".join(parts)
 
-
+# находит нужный файл
 def get_node(path):
     parts = split_path(path)
     node = VFS_ROOT
@@ -60,7 +59,7 @@ def get_node(path):
         node = children[p]
     return node
 
-
+# показать содержимое папки
 def cmd_ls(args):
     path = CURRENT_PATH
     if args:
@@ -80,7 +79,7 @@ def cmd_ls(args):
             print(name)
     return 0
 
-
+# перейти в другю папку
 def cmd_cd(args):
     global CURRENT_PATH
     if not args:
@@ -98,12 +97,12 @@ def cmd_cd(args):
     CURRENT_PATH = new_path
     return 0
 
-
+# показать текущий путь
 def cmd_pwd(args):
     print(CURRENT_PATH)
     return 0
 
-
+# найти файл по имени
 def cmd_find(args):
     if not args:
         print("find: нужен аргумент (имя)")
@@ -130,7 +129,7 @@ def cmd_find(args):
         print(r)
     return 0
 
-
+# вывести файл наоборот
 def cmd_tac(args):
     if not args:
         print("tac: нужен путь к файлу")
@@ -149,7 +148,7 @@ def cmd_tac(args):
         print(line)
     return 0
 
-
+# текущая дата и время
 def cmd_date(args):
     now = datetime.datetime.now()
     print(now.strftime("%Y-%m-%d %H:%M:%S"))
@@ -169,7 +168,7 @@ def _get_parent(path):
     parent = get_node(parent_path)
     return parent, name
 
-
+# переместить, переименовать
 def cmd_mv(args):
     if len(args) < 2:
         print("mv: нужно два аргумента (источник и назначение)")
@@ -211,12 +210,12 @@ def cmd_mv(args):
     dst_parent.setdefault("children", {})[dst_name] = removed
     return 0
 
-
+# выход
 def cmd_exit(args):
     print("Выход из эмулятора.")
     sys.exit(0)
 
-
+# словарь команд 
 COMMANDS = {
     "ls": cmd_ls,
     "cd": cmd_cd,
@@ -228,7 +227,7 @@ COMMANDS = {
     "exit": cmd_exit,
 }
 
-
+# разбивает строки
 def parse_line(line):
     try:
         parts = shlex.split(line)
@@ -239,7 +238,7 @@ def parse_line(line):
         return None, []
     return parts[0], parts[1:]
 
-
+# выполняет одну строку
 def execute_line(line):
     command, args = parse_line(line)
     if command is None:
@@ -253,7 +252,7 @@ def execute_line(line):
 def print_prompt():
     print(f"{VFS_NAME}:{CURRENT_PATH}$ ", end="")
 
-
+# цикл работает пока ты не выйдешь
 def run_repl():
     print(f"Эмулятор оболочки ОС (VFS: {VFS_NAME})")
     print("Введите 'exit' для выхода.\n")
@@ -266,7 +265,7 @@ def run_repl():
             break
         execute_line(line)
 
-
+# запуск скрипта
 def run_script(script_path):
     if not os.path.isfile(script_path):
         print(f"Ошибка: скрипт не найден: {script_path}")
@@ -283,14 +282,14 @@ def run_script(script_path):
                 sys.exit(1)
     print("\n--- Скрипт выполнен успешно ---")
 
-
+# читает что было введено при хапуске
 def parse_args():
     parser = argparse.ArgumentParser(description="Эмулятор оболочки ОС с VFS.")
     parser.add_argument("--vfs", type=str, default=None)
     parser.add_argument("--script", type=str, default=None)
     return parser.parse_args()
 
-
+# главная функция, разбирает аргументы, загружает файлы, выполняет скрипты
 def main():
     global VFS_ROOT
     args = parse_args()
@@ -307,6 +306,6 @@ def main():
     else:
         run_repl()
 
-
+# точка входа, запуск программы
 if __name__ == "__main__":
     main()
