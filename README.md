@@ -26,11 +26,17 @@
 
 
 
-Этап 1. REPL — выполнен.
+Все этапы выполнены:
 
-Этап 2. Конфигурация — выполнен.
+\- Этап 1. REPL — выполнен.
 
-Этап 3. VFS — выполнен.
+\- Этап 2. Конфигурация — выполнен.
+
+\- Этап 3. VFS — выполнен.
+
+\- Этап 4. Основные команды — выполнен.
+
+\- Этап 5. Дополнительные команды — выполнен.
 
 
 
@@ -42,11 +48,13 @@
 
 \- Загрузка VFS из JSON-файла в память.
 
-\- Команды: ls, cd, pwd, exit.
+\- Команды: ls, cd, pwd, find, tac, date, mv, exit.
 
 \- Поддержка путей: /, ., .., относительные и абсолютные.
 
 \- Стартовый скрипт: выполняется построчно, останавливается при первой ошибке.
+
+\- Обработка ошибок для всех команд.
 
 
 
@@ -58,7 +66,7 @@ shell-emulator/
 
 \- src/main.py — исходный код
 
-\- scripts/ — стартовые скрипты
+\- scripts/ — стартовые скрипты (startup.txt, test\_minimal.txt, test\_files.txt, test\_nested.txt, test\_commands.txt, test\_mv.txt)
 
 \- vfs\_minimal.json — минимальная VFS
 
@@ -80,7 +88,7 @@ shell-emulator/
 
 cd src
 
-python main.py --vfs ../vfs\_nested.json --script ../scripts/test\_nested.txt
+python main.py --vfs ../vfs\_nested.json --script ../scripts/test\_mv.txt
 
 
 

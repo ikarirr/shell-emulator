@@ -156,6 +156,62 @@ def cmd_date(args):
     return 0
 
 
+def _remove_node(parent_node, name):
+    return parent_node.get("children", {}).pop(name, None)
+
+
+def _get_parent(path):
+    parts = split_path(path)
+    if not parts:
+        return None, None
+    name = parts[-1]
+    parent_path = "/" + "/".join(parts[:-1])
+    parent = get_node(parent_path)
+    return parent, name
+
+
+def cmd_mv(args):
+    if len(args) < 2:
+        print("mv: нужно два аргумента (источник и назначение)")
+        return 1
+
+    src_rel, dst_rel = args[0], args[1]
+    src_path = resolve_path(CURRENT_PATH, src_rel)
+    dst_path = resolve_path(CURRENT_PATH, dst_rel)
+
+    src_node = get_node(src_path)
+    if src_node is None:
+        print(f"mv: {src_rel}: нет такого файла или каталога")
+        return 1
+
+    dst_node = get_node(dst_path)
+    if dst_node is not None and dst_node.get("type") == "dir":
+        dst_path = resolve_path(dst_path, os.path.basename(src_path))
+
+    src_parent, src_name = _get_parent(src_path)
+    dst_parent, dst_name = _get_parent(dst_path)
+
+    if src_parent is None or dst_parent is None:
+        print("mv: не удалось определить родительскую директорию")
+        return 1
+
+    if dst_parent.get("type") != "dir":
+        print(f"mv: {dst_rel}: родительская директория не найдена")
+        return 1
+
+    if src_node.get("type") == "dir" and dst_path.startswith(src_path + "/"):
+        print("mv: нельзя переместить директорию внутрь себя")
+        return 1
+
+    removed = _remove_node(src_parent, src_name)
+    if removed is None:
+        print(f"mv: {src_rel}: ошибка перемещения")
+        return 1
+
+    dst_parent.setdefault("children", {})[dst_name] = removed
+    return 0
+
+
 def cmd_exit(args):
     print("Выход из эмулятора.")
     sys.exit(0)
@@ -168,6 +224,7 @@ COMMANDS = {
     "find": cmd_find,
     "tac": cmd_tac,
     "date": cmd_date,
+    "mv": cmd_mv,
     "exit": cmd_exit,
 }
 

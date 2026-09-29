@@ -1,0 +1,9 @@
+ls
+mv /home/user/notes.txt /home/user/renamed_notes.txt
+ls /home/user
+cd /home/user
+tac renamed_notes.txt
+mv renamed_notes.txt /home/user/docs/
+ls /home/user/docs
+mv /no/such/file /home/user/docs/
+mv

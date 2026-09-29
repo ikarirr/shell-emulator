@@ -1,0 +1,7 @@
+ls
+find notes.txt
+find readme.txt
+cd /home/user
+tac notes.txt
+date
+find nonexistent.xyz
